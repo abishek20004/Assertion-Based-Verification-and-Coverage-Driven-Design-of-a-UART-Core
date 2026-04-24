@@ -53,10 +53,3 @@ Based on the simulation results from **QuestaSim 10.7c**:
 
 ---
 
-## 📂 4. Project Structure
-```text
-UART_Project/
-├── rtl/                # Verilog source code (uart_tx.v, uart_rx.v)
-├── tb/                 # SystemVerilog Testbenches (uart_tx_tb.sv, uart_rx_tb.sv)
-├── reports/            # Exported coverage and assertion logs (.txt files)
-└── README.md           # Project documentation
