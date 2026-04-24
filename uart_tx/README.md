@@ -56,5 +56,4 @@ The transmitter was verified using a SystemVerilog testbench featuring a scorebo
 The UART Transmitter design is optimized for high timing accuracy and low resource utilization. With **97.14% statement coverage**, the design logic is proven to be robust and protocol-compliant for any FPGA-based serial communication task.
 
 ---
-**Author:** Abishek S
-**Tools:** QuestaSim 10.7c, Verilog, SystemVerilog
+
