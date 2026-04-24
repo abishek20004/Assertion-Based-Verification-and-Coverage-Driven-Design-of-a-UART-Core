@@ -46,6 +46,10 @@ The metrics below represent the performance of the **Integrated System** as a wh
 | **Assertion Pass Rate** | **100% (100/100 Packets)** | ✅ Passed |
 | **Functional Coverage** | **87.50%** | 📈 High |
 
+---
+
+## 🏁 Summary
+
 ### **Reasoning for System Performance:**
 * **Why 87.50%?** By tying the TX and RX together, the testbench naturally exercises the interaction between both Finite State Machines (FSMs). This "Loopback" method automatically triggers the **Full-Duplex** coverage bins, which are impossible to hit when testing modules in isolation.
 * **Remaining 12.5% Gap:** The current random stimulus did not hit the specific "Toggle" bin (e.g., alternating `0xAA` and `0x55` patterns back-to-back), which would require targeted constrained-random stimulus to close.
