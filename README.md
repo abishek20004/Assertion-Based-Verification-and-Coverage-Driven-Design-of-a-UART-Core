@@ -52,4 +52,13 @@ Based on the simulation results from **QuestaSim 10.7c**:
 > **Note:** Functional coverage reflects the diversity of random stimulus. Coverage holes identified (e.g., 0xAA, 0x00) provide clear targets for future directed testing to reach 100% closure.
 
 ---
+## 🛠️ 4. Tools & Technologies
+- Verilog HDL  
+- SystemVerilog HDL  
+- QuestaSim   
 
+---
+
+## 👨‍💻 Abishek S
+- xia2020.abisheks@gmail.com
+- www.linkedin.com/in/abishek-s-848564258
