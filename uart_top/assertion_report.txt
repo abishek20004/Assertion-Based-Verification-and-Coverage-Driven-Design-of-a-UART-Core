@@ -1,0 +1,8 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+Name       Assertion   Design      Design   Lang File(Line)         Enable    Failure      Pass  FPSA   Failure Pass    Failure EOS  Formal       Formal
+           Type        Unit        UnitType                                   Count        Count Action Log     Log     Limit   Note Status       Radius
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+/tb_uart_top/assert_data_match
+           Concurrent  tb_uart_top Verilog  SVA  tb_uart_top.sv(65)   on            0          1 CCCC   -       -     unlimited off                     
+/tb_uart_top/assert_no_rx_err
+           Concurrent  tb_uart_top Verilog  SVA  tb_uart_top.sv(69)   on            0          1 CCCC   -       -     unlimited off                     

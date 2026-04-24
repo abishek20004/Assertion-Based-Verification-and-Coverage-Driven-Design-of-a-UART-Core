@@ -1,0 +1,257 @@
+# Reading D:/questasim64_10.7c/tcl/vsim/pref.tcl
+# //  Questa Sim-64
+# //  Version 10.7c win64 Aug 18 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Cor# End time: 02:57:28 on Apr 25,2026, Elapsed time: 0:19:27
+# Errors: 7, Warnings: 0
+tation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading project UART
+# --- INITIALIZE ---
+vlib work
+# ** Warning: (vlib-34) Library already exists at "work".
+vlog uart_tx.v uart_rx.v uart_top.v
+# QuestaSim-64 vlog 10.7c Compiler 2018.08 Aug 18 2018
+# Start time: 02:38:01 on Apr 25,2026
+# vlog -reportprogress 300 uart_tx.v uart_rx.v uart_top.v 
+# -- Compiling module uart_tx
+# -- Compiling module uart_rx
+# -- Compiling module uart_top
+# 
+# Top level modules:
+# 	uart_top
+# End time: 02:38:01 on Apr 25,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -sv tb_uart_top.sv
+# QuestaSim-64 vlog 10.7c Compiler 2018.08 Aug 18 2018
+# Start time: 02:38:01 on Apr 25,2026
+# vlog -reportprogress 300 -sv tb_uart_top.sv 
+# -- Compiling module tb_uart_top
+# ** Warning: tb_uart_top.sv(90): (vlog-2240) Treating stand-alone use of function 'randomize' as an implicit VOID cast.
+# 
+# Top level modules:
+# 	tb_uart_top
+# End time: 02:38:01 on Apr 25,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 1
+
+# --- SIMULATE ---
+vsim -voptargs="+acc" work.tb_uart_top
+# vsim -voptargs=""+acc"" work.tb_uart_top 
+# Start time: 02:38:01 on Apr 25,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Note: (vopt-143) Recognized 1 FSM in module "uart_tx(fast)".
+# ** Note: (vopt-143) Recognized 1 FSM in module "uart_rx(fast)".
+# Loading sv_std.std
+# Loading work.tb_uart_top(fast)
+# Loading work.uart_top(fast)
+# Loading work.uart_tx(fast)
+# Loading work.uart_rx(fast)
+
+# --- SETUP WAVES ---
+add wave -divider "HARDWARE PINS"
+add wave sim:/tb_uart_top/serial_line
+add wave -divider "RESULTS"
+add wave -hex -color "Yellow" sim:/tb_uart_top/tx_data_in
+add wave -hex -color "Green" sim:/tb_uart_top/rx_data_out
+add wave sim:/tb_uart_top/rx_done
+
+# --- RUN ---
+run -all
+# --- Starting 100 Random Transmissions ---
+# [0] Success: Data e7 received correctly
+# [1] Success: Data 7c received correctly
+# [2] Success: Data 9c received correctly
+# [3] Success: Data 1c received correctly
+# [4] Success: Data e8 received correctly
+# [5] Success: Data a7 received correctly
+# [6] Success: Data 16 received correctly
+# [7] Success: Data c4 received correctly
+# [8] Success: Data 00 received correctly
+# [9] Success: Data 59 received correctly
+# [10] Success: Data f8 received correctly
+# [11] Success: Data fb received correctly
+# [12] Success: Data 11 received correctly
+# [13] Success: Data a2 received correctly
+# [14] Success: Data fc received correctly
+# [15] Success: Data a5 received correctly
+# [16] Success: Data de received correctly
+# [17] Success: Data 96 received correctly
+# [18] Success: Data 90 received correctly
+# [19] Success: Data 17 received correctly
+# [20] Success: Data de received correctly
+# [21] Success: Data 83 received correctly
+# [22] Success: Data 86 received correctly
+# [23] Success: Data 14 received correctly
+# [24] Success: Data cd received correctly
+# [25] Success: Data 5c received correctly
+# [26] Success: Data 4f received correctly
+# [27] Success: Data b2 received correctly
+# [28] Success: Data 97 received correctly
+# [29] Success: Data ff received correctly
+# [30] Success: Data 1e received correctly
+# [31] Success: Data ac received correctly
+# [32] Success: Data 2c received correctly
+# [33] Success: Data e4 received correctly
+# [34] Success: Data 9e received correctly
+# [35] Success: Data 85 received correctly
+# [36] Success: Data b2 received correctly
+# [37] Success: Data 9b received correctly
+# [38] Success: Data 52 received correctly
+# [39] Success: Data ad received correctly
+# [40] Success: Data 31 received correctly
+# [41] Success: Data 18 received correctly
+# [42] Success: Data 99 received correctly
+# [43] Success: Data c0 received correctly
+# [44] Success: Data 02 received correctly
+# [45] Success: Data 8c received correctly
+# [46] Success: Data e1 received correctly
+# [47] Success: Data 88 received correctly
+# [48] Success: Data 2f received correctly
+# [49] Success: Data 35 received correctly
+# [50] Success: Data 14 received correctly
+# [51] Success: Data 0f received correctly
+# [52] Success: Data 11 received correctly
+# [53] Success: Data 2d received correctly
+# [54] Success: Data 48 received correctly
+# [55] Success: Data d7 received correctly
+# [56] Success: Data 1d received correctly
+# [57] Success: Data c1 received correctly
+# [58] Success: Data f5 received correctly
+# [59] Success: Data 98 received correctly
+# [60] Success: Data 82 received correctly
+# [61] Success: Data 82 received correctly
+# [62] Success: Data 71 received correctly
+# [63] Success: Data c1 received correctly
+# [64] Success: Data 15 received correctly
+# [65] Success: Data 53 received correctly
+# [66] Success: Data 7e received correctly
+# [67] Success: Data 8f received correctly
+# [68] Success: Data 39 received correctly
+# [69] Success: Data 5e received correctly
+# [70] Success: Data 38 received correctly
+# [71] Success: Data ab received correctly
+# [72] Success: Data a1 received correctly
+# [73] Success: Data 7a received correctly
+# [74] Success: Data 18 received correctly
+# [75] Success: Data 81 received correctly
+# [76] Success: Data b8 received correctly
+# [77] Success: Data 81 received correctly
+# [78] Success: Data e1 received correctly
+# [79] Success: Data f8 received correctly
+# [80] Success: Data a2 received correctly
+# [81] Success: Data 2f received correctly
+# [82] Success: Data 0d received correctly
+# [83] Success: Data 97 received correctly
+# [84] Success: Data 38 received correctly
+# [85] Success: Data 43 received correctly
+# [86] Success: Data c1 received correctly
+# [87] Success: Data 4d received correctly
+# [88] Success: Data 1a received correctly
+# [89] Success: Data 75 received correctly
+# [90] Success: Data c9 received correctly
+# [91] Success: Data d6 received correctly
+# [92] Success: Data d3 received correctly
+# [93] Success: Data 01 received correctly
+# [94] Success: Data d6 received correctly
+# [95] Success: Data 89 received correctly
+# [96] Success: Data 2a received correctly
+# [97] Success: Data bf received correctly
+# [98] Success: Data e0 received correctly
+# [99] Success: Data 0f received correctly
+# Final Coverage: 87.50%
+# ** Note: $finish    : tb_uart_top.sv(115)
+#    Time: 8680090 ns  Iteration: 1  Instance: /tb_uart_top
+# 1
+# Break in Module tb_uart_top at tb_uart_top.sv line 115
+# 1. Generate Functional & Code Coverage Report
+# This creates a detailed report similar to your functional_coverage.txt
+coverage report -file coverage_report.txt -annotate -all -details
+# ** Error: (vsim-4003) Invalid option '-annotate'.
+#        coverage report [-above <pct>] [-below <pct>] [-all] [-append] [-assert]
+#                        [-bydu] [-byfile] [-byinstance] [-code [bcesf(t|x)]] [-coverenhanced]
+#                        [-codeAll] [-comments] [-concurrent|-immediate] [-config] [-covered]
+#                        [-cvg] [-binrhs] [-details [-metricanalysis]] [-memory] [-directive] [-du <name>]
+#                        [-nocollect] [[-excluded [-pragma] [-user] [-adaptive]] | -totals | [-lines
+#                        [-all]] [-zeros]] [-(file|output) <filename>] [-filter <string>]
+#                        [-flat [-primarykey <type|path|value>] [-secondarykey <type|path|value>]]
+#                        [-hidecvginsts] [-hidecvginstspi0] [-instance <pathname>]
+#                        [-lang sva|psl|vhdl] [-library <libname>] [-noannotate] [-nocomment] [-noconcurr]
+#                        [-noexcludedhits] [-noimmed] [-option] [-noignorebins] [-nofec] [-noudp]
+#                        [-nocvpbinsummary] [-nocrossbinsummary] [-nocvgbin] [-nomissing]
+#                        [-cvp <coverpoint_cross_path>] [-package <pkgname>] [-precision <int>]
+#                        [-portmode <inputs|outputs|inouts|ports|internals>] [-recursive
+#                        [-depth <n>]] [-setdefault [byfile | byinstance | bydu]]
+#                        [-source <filename>] [-totals] [-usecnpm]
+#                        [-testattr] [-testextract <test_name_or_pattern>]
+#                        [-samples ([-le|-ge] <int> | <int>-<int>)] [-xml]
+#                        [-severity info|note|warning|error|failure|fatal]
+#                        [-showambiguity] [-showexcluded] [-unattemptedimmed] [-uselimit] [functional cover path] ...
+# 		coverage report -html [-htmldir <outdir>] [-verbose] [-code [bcesf(t|x)]] [-assert]
+#                       [-cvg] [-instance <pathname>] [-du <du name>]
+#                       [-directive] [-noinstance] [-source] [-details]
+#                       [-nodu] [-noframes] [-notestplan] [-nofec] [-noudp]
+#                       [-notimestamps] [-nozeroweights] [-noignorebins] [-binrhs]
+#                       [-hidecvginsts] [-hidecvginstspi0] [-usecnpm] [-testhitdata]
+#                       [-precision <int>] [-threshH <pct>] [-threshL <pct>] [-summary]
+#                       [-stmtaltflow] [-showexcluded] [-showcvggaolpcnt]
+# 
+# 
+
+# 2. Generate Assertion Report
+# This captures the pass/fail counts for your data match Scoreboard
+assertion report -file assertion_report.txt -detail
+# ** Error: (vsim-4003) Invalid option '-detail'.
+# Usage: assertion report [-recursive] [-append] [-file <filename>] [-verbose] [-xml] [-totalmemory] [-noconcurr] [-noimmed] [-nosoa] [-noextract] [-nomeas] [-lang psl|sva|vhdl|vhdlams|spice]* [-severity info|note|warning|error|failure|fatal] [-failed] [-filter <pattern>] <path> ...
+# 
+# 
+
+# 3. Save the Transcript Log
+# This saves everything currently in your transcript window to a file
+transcript save simulation_transcript.txt
+# transcript: unknown argument: save
+
+# 4. (Optional) Generate a Summary Report
+# Creates a high-level overview of the simulation coverage
+coverage report -summary -file summary_report.txt
+# ** Error: (vsim-4003) Invalid option '-summary'.
+#        coverage report [-above <pct>] [-below <pct>] [-all] [-append] [-assert]
+#                        [-bydu] [-byfile] [-byinstance] [-code [bcesf(t|x)]] [-coverenhanced]
+#                        [-codeAll] [-comments] [-concurrent|-immediate] [-config] [-covered]
+#                        [-cvg] [-binrhs] [-details [-metricanalysis]] [-memory] [-directive] [-du <name>]
+#                        [-nocollect] [[-excluded [-pragma] [-user] [-adaptive]] | -totals | [-lines
+#                        [-all]] [-zeros]] [-(file|output) <filename>] [-filter <string>]
+#                        [-flat [-primarykey <type|path|value>] [-secondarykey <type|path|value>]]
+#                        [-hidecvginsts] [-hidecvginstspi0] [-instance <pathname>]
+#                        [-lang sva|psl|vhdl] [-library <libname>] [-noannotate] [-nocomment] [-noconcurr]
+#                        [-noexcludedhits] [-noimmed] [-option] [-noignorebins] [-nofec] [-noudp]
+#                        [-nocvpbinsummary] [-nocrossbinsummary] [-nocvgbin] [-nomissing]
+#                        [-cvp <coverpoint_cross_path>] [-package <pkgname>] [-precision <int>]
+#                        [-portmode <inputs|outputs|inouts|ports|internals>] [-recursive
+#                        [-depth <n>]] [-setdefault [byfile | byinstance | bydu]]
+#                        [-source <filename>] [-totals] [-usecnpm]
+#                        [-testattr] [-testextract <test_name_or_pattern>]
+#                        [-samples ([-le|-ge] <int> | <int>-<int>)] [-xml]
+#                        [-severity info|note|warning|error|failure|fatal]
+#                        [-showambiguity] [-showexcluded] [-unattemptedimmed] [-uselimit] [functional cover path] ...
+# 		coverage report -html [-htmldir <outdir>] [-verbose] [-code [bcesf(t|x)]] [-assert]
+#                       [-cvg] [-instance <pathname>] [-du <du name>]
+#                       [-directive] [-noinstance] [-source] [-details]
+#                       [-nodu] [-noframes] [-notestplan] [-nofec] [-noudp]
+#                       [-notimestamps] [-nozeroweights] [-noignorebins] [-binrhs]
+#                       [-hidecvginsts] [-hidecvginstspi0] [-usecnpm] [-testhitdata]
+#                       [-precision <int>] [-threshH <pct>] [-threshL <pct>] [-summary]
+#                       [-stmtaltflow] [-showexcluded] [-showcvggaolpcnt]
+# 
+# 
+coverage report -file coverage_report.txt -cvg -byfile -details -codeAll
+assertion report -file assertion_report.txt -verbose
+transcript file simulation_transcript.txt
+coverage report -file summary_report.txt -totals
+assertion report -file assertion_report.txt -verbose -recursive /
+write transcript simulation_transcript.txt
