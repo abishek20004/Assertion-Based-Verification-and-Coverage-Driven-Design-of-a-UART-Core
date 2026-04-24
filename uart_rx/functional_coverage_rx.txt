@@ -1,0 +1,28 @@
+COVERGROUP COVERAGE:
+-----------------------------------------------------------------------------------------------
+Covergroup                                             Metric       Goal    Status               
+                                                                                              
+-----------------------------------------------------------------------------------------------
+ TYPE /uart_rx_tb/cg_uart                              25.00%        100    Uncovered            
+    covered/total bins:                                     1          4                      
+    missing/total bins:                                     3          4                      
+    % Hit:                                             25.00%        100                      
+    Coverpoint cg_uart::cp_data                        25.00%        100    Uncovered            
+        covered/total bins:                                 1          4                      
+        missing/total bins:                                 3          4                      
+        % Hit:                                         25.00%        100                      
+ Covergroup instance \/uart_rx_tb/#ublk#175013426#41/cov_inst  
+                                                       25.00%        100    Uncovered            
+    covered/total bins:                                     1          4                      
+    missing/total bins:                                     3          4                      
+    % Hit:                                             25.00%        100                      
+    Coverpoint cp_data                                 25.00%        100    Uncovered            
+        covered/total bins:                                 1          4                      
+        missing/total bins:                                 3          4                      
+        % Hit:                                         25.00%        100                      
+        bin zeros                                           0          1    ZERO                 
+        bin ones                                            0          1    ZERO                 
+        bin alternating                                     0          1    ZERO                 
+        bin misc                                          100          1    Covered              
+
+TOTAL COVERGROUP COVERAGE: 25.00%  COVERGROUP TYPES: 1
