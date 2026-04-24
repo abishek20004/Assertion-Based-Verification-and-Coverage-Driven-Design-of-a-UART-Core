@@ -41,7 +41,7 @@ The verification environment is built in **SystemVerilog**, utilizing advanced v
 ---
 
 ## 📊 3. Final Verification Reports
-Based on the simulation results from **QuestaSim 10.7c**:
+Based on the simulation results from **QuestaSim**:
 
 | Metric | UART Transmitter (TX) | UART Receiver (RX) |
 | :--- | :--- | :--- |
