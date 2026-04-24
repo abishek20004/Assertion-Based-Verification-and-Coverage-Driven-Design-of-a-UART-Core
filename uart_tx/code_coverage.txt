@@ -1,0 +1,409 @@
+Coverage Report by file with details
+
+=================================================================================
+=== File: uart_tx.v
+=================================================================================
+Statement Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Stmts                           35        34         1     97.14
+
+================================Statement Details================================
+
+Statement Coverage for file uart_tx.v --
+
+    1                                                module uart_tx #(
+    2                                                    parameter CLK_FREQ = 50000000, // 50MHz
+    3                                                    parameter BAUD_RATE = 9600
+    4                                                )(
+    5                                                    input wire clk,
+    6                                                    input wire rst_n,
+    7                                                    input wire [7:0] tx_data,
+    8                                                    input wire tx_start,
+    9                                                    output reg tx_serial,
+    10                                                   output reg tx_busy,
+    11                                                   output reg tx_done
+    12                                               );
+    13                                               
+    14                                                   // State Encoding
+    15                                                   localparam IDLE   = 3'd0,
+    16                                                              START  = 3'd1,
+    17                                                              DATA   = 3'd2,
+    18                                                              PARITY = 3'd3,
+    19                                                              STOP   = 3'd4;
+    20                                               
+    21                                                   localparam BIT_PERIOD = CLK_FREQ / BAUD_RATE;
+    22                                               
+    23                                                   reg [2:0] state;
+    24                                                   reg [15:0] clk_count;
+    25                                                   reg [2:0] bit_index;
+    26                                                   reg [7:0] data_reg;
+    27                                                   reg parity_bit;
+    28                                               
+    29              1                     572913         always @(posedge clk or negedge rst_n) begin
+    30                                                       if (!rst_n) begin
+    31              1                          2                 state <= IDLE;
+    32              1                          2                 tx_serial <= 1'b1; // UART idle high
+    33              1                          2                 tx_busy <= 1'b0;
+    34              1                          2                 tx_done <= 1'b0;
+    35              1                          2                 clk_count <= 0;
+    36                                                       end else begin
+    37                                                           case (state)
+    38                                                               IDLE: begin
+    39              1                         31                         tx_done <= 1'b0;
+    40              1                         31                         tx_serial <= 1'b1;
+    41                                                                   if (tx_start) begin
+    42              1                         10                             data_reg <= tx_data;
+    43              1                         10                             parity_bit <= ^tx_data; // XOR reduction for even parity
+    44              1                         10                             tx_busy <= 1'b1;
+    45              1                         10                             state <= START;
+    46              1                         10                             clk_count <= 0;
+    47                                                                   end else begin
+    48              1                         21                             tx_busy <= 1'b0;
+    49                                                                   end
+    50                                                               end
+    51                                               
+    52                                                               START: begin
+    53              1                      52080                         tx_serial <= 1'b0; // Start bit
+    54                                                                   if (clk_count < BIT_PERIOD - 1) begin
+    55              1                      52070                             clk_count <= clk_count + 1;
+    56                                                                   end else begin
+    57              1                         10                             clk_count <= 0;
+    58              1                         10                             state <= DATA;
+    59              1                         10                             bit_index <= 0;
+    60                                                                   end
+    61                                                               end
+    62                                               
+    63                                                               DATA: begin
+    64              1                     416640                         tx_serial <= data_reg[bit_index];
+    65                                                                   if (clk_count < BIT_PERIOD - 1) begin
+    66              1                     416560                             clk_count <= clk_count + 1;
+    67                                                                   end else begin
+    68              1                         80                             clk_count <= 0;
+    69                                                                       if (bit_index < 7) begin
+    70              1                         70                                 bit_index <= bit_index + 1;
+    71                                                                       end else begin
+    72              1                         10                                 state <= PARITY;
+    73                                                                       end
+    74                                                                   end
+    75                                                               end
+    76                                               
+    77                                                               PARITY: begin
+    78              1                      52080                         tx_serial <= parity_bit;
+    79                                                                   if (clk_count < BIT_PERIOD - 1) begin
+    80              1                      52070                             clk_count <= clk_count + 1;
+    81                                                                   end else begin
+    82              1                         10                             clk_count <= 0;
+    83              1                         10                             state <= STOP;
+    84                                                                   end
+    85                                                               end
+    86                                               
+    87                                                               STOP: begin
+    88              1                      52080                         tx_serial <= 1'b1; // Stop bit
+    89                                                                   if (clk_count < BIT_PERIOD - 1) begin
+    90              1                      52070                             clk_count <= clk_count + 1;
+    91                                                                   end else begin
+    92              1                         10                             clk_count <= 0;
+    93              1                         10                             tx_done <= 1'b1;
+    94              1                         10                             tx_busy <= 1'b0;
+    95              1                         10                             state <= IDLE;
+    96                                                                   end
+    97                                                               end
+    98                                               
+    99              1                    ***0***                     default: state <= IDLE;
+    100                                                          endcase
+    101                                                      end
+    102                                                  end
+    103                                              endmodule
+
+Branch Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Branches                        20        19         1     95.00
+
+================================Branch Details================================
+
+Branch Coverage for file uart_tx.v --
+
+------------------------------------IF Branch------------------------------------
+    30                                    572913     Count coming in to IF
+    30              1                          2             if (!rst_n) begin
+    36              1                     572911             end else begin
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------CASE Branch------------------------------------
+    37                                    572911     Count coming in to CASE
+    38              1                         31                     IDLE: begin
+    52              1                      52080                     START: begin
+    63              1                     416640                     DATA: begin
+    77              1                      52080                     PARITY: begin
+    87              1                      52080                     STOP: begin
+    99              1                    ***0***                     default: state <= IDLE;
+Branch totals: 5 hits of 6 branches = 83.33%
+
+------------------------------------IF Branch------------------------------------
+    41                                        31     Count coming in to IF
+    41              1                         10                         if (tx_start) begin
+    47              1                         21                         end else begin
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    54                                     52080     Count coming in to IF
+    54              1                      52070                         if (clk_count < BIT_PERIOD - 1) begin
+    56              1                         10                         end else begin
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    65                                    416640     Count coming in to IF
+    65              1                     416560                         if (clk_count < BIT_PERIOD - 1) begin
+    67              1                         80                         end else begin
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    69                                        80     Count coming in to IF
+    69              1                         70                             if (bit_index < 7) begin
+    71              1                         10                             end else begin
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    79                                     52080     Count coming in to IF
+    79              1                      52070                         if (clk_count < BIT_PERIOD - 1) begin
+    81              1                         10                         end else begin
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    89                                     52080     Count coming in to IF
+    89              1                      52070                         if (clk_count < BIT_PERIOD - 1) begin
+    91              1                         10                         end else begin
+Branch totals: 2 hits of 2 branches = 100.00%
+
+
+Condition Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Condition Terms              5         5         0    100.00
+
+================================Condition Details================================
+
+Condition Coverage for file uart_tx.v --
+
+----------------Focused Condition View-------------------
+Line       54 Item    1  (clk_count < (5208 - 1))
+Condition totals: 1 of 1 input term covered = 100.00%
+
+----------------Focused Condition View-------------------
+Line       65 Item    1  (clk_count < (5208 - 1))
+Condition totals: 1 of 1 input term covered = 100.00%
+
+----------------Focused Condition View-------------------
+Line       69 Item    1  (bit_index < 7)
+Condition totals: 1 of 1 input term covered = 100.00%
+
+----------------Focused Condition View-------------------
+Line       79 Item    1  (clk_count < (5208 - 1))
+Condition totals: 1 of 1 input term covered = 100.00%
+
+----------------Focused Condition View-------------------
+Line       89 Item    1  (clk_count < (5208 - 1))
+Condition totals: 1 of 1 input term covered = 100.00%
+
+
+FSM Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FSMs                                                       81.25
+        States                       5         5         0    100.00
+        Transitions                  8         5         3     62.50
+
+================================FSM Details================================
+
+FSM Coverage for file uart_tx.v --
+
+FSM_ID: state
+    Current State Object : state
+    ----------------------
+    State Value MapInfo :
+    ---------------------
+Line          State Name               Value
+----          ----------               -----
+  38                IDLE                   0
+  52               START                   1
+  63                DATA                   2
+  77              PARITY                   3
+  87                STOP                   4
+    Covered States :
+    ----------------
+                   State           Hit_count
+                   -----           ---------
+                    IDLE                  12
+                   START                  10
+                    DATA                  10
+                  PARITY                  10
+                    STOP                  10
+    Covered Transitions :
+    ---------------------
+Line            Trans_ID           Hit_count          Transition          
+----            --------           ---------          ----------          
+  45                   0                  10          IDLE -> START       
+  58                   1                  10          START -> DATA       
+  72                   3                  10          DATA -> PARITY      
+  83                   5                  10          PARITY -> STOP      
+  95                   7                  10          STOP -> IDLE        
+    Uncovered Transitions :
+    -----------------------
+Line            Trans_ID          Transition          
+----            --------          ----------          
+  31                   2          START -> IDLE       
+  31                   4          DATA -> IDLE        
+  31                   6          PARITY -> IDLE      
+
+
+    Summary                     Active      Hits    Misses % Covered
+    -------                     ------      ----    ------ ---------
+        States                       5         5         0    100.00
+        Transitions                  8         5         3     62.50
+
+=================================================================================
+=== File: uart_tx_tb.sv
+=================================================================================
+Statement Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Stmts                           23        23         0    100.00
+
+================================Statement Details================================
+
+Statement Coverage for file uart_tx_tb.sv --
+
+    1                                                module uart_tx_tb;
+    2                                                
+    3                                                    // Parameters
+    4                                                    parameter CLK_FREQ = 50000000;
+    5                                                    parameter BAUD_RATE = 9600;
+    6                                                    localparam BIT_PERIOD_NS = 1000000000 / BAUD_RATE;
+    7                                                
+    8                                                    // Signals
+    9                                                    logic clk = 0;
+    10                                                   logic rst_n;
+    11                                                   logic [7:0] tx_data;
+    12                                                   logic tx_start;
+    13                                                   logic tx_serial;
+    14                                                   logic tx_busy;
+    15                                                   logic tx_done;
+    16                                               
+    17                                                   // Instantiate DUT (Device Under Test)
+    18                                                   uart_tx #(CLK_FREQ, BAUD_RATE) dut (.*);
+    19                                               
+    20                                                   // Clock Generation
+    21              1                    1145901         always #10 clk = ~clk; // 50MHz Clock
+    21              2                    1145900     
+    22                                               
+    23                                                   // --- 1. RANDOMIZATION ---
+    24                                                   // We create a simple class to randomize our data packets
+    25                                                   class uart_packet;
+    26                                                       rand bit [7:0] data;
+    27                                                   endclass
+    28                                               
+    29                                                   // --- 2. FUNCTIONAL COVERAGE ---
+    30                                                   // This tracks if we have tested a variety of data patterns
+    31                                                   covergroup cg_uart @(posedge tx_done);
+    32                                                       coverpoint tx_data {
+    33                                                           bins zeros = {8'h00};
+    34                                                           bins ones  = {8'hFF};
+    35                                                           bins alternating = {8'hAA, 8'h55};
+    36                                                           bins misc = {[8'h01:8'hFE]};
+    37                                                       }
+    38                                                   endgroup
+    39                                               
+    40              1                          1         cg_uart cov_inst = new();
+    41                                               
+    42                                                   // --- 3. ASSERTIONS ---
+    43                                                   // Property: tx_busy must be high while transmitting
+    44                                                   property p_tx_busy;
+    45                                                       @(posedge clk) tx_start |=> tx_busy;
+    46                                                   endproperty
+    47                                                   assert property (p_tx_busy) else $error("Assertion Failed: tx_busy did not go high!");
+    48                                               
+    49                                                   // Property: tx_done should pulse high for only one cycle
+    50                                                   property p_tx_done_pulse;
+    51                                                       @(posedge clk) tx_done |=> !tx_done;
+    52                                                   endproperty
+    53                                                   assert property (p_tx_done_pulse);
+    54                                               
+    55                                                   // Stimulus Process
+    56                                                   initial begin
+    57              1                          1             uart_packet pkt = new();
+    58                                                       
+    59                                                       // Reset System
+    60              1                          1             rst_n = 0;
+    61              1                          1             tx_start = 0;
+    62              1                          1             tx_data = 0;
+    63              1                          1             #100 rst_n = 1;
+    63              2                          1     
+    64              1                          1             #100;
+    65                                               
+    66                                                       // Run 10 Random Transmissions
+    67              1                         10             repeat (10) begin
+    68              1                         10                 wait(!tx_busy);
+    69              1                         10                 pkt.randomize();
+    70                                                           
+    71              1                         10                 @(posedge clk);
+    72              1                         10                 tx_data = pkt.data;
+    73              1                         10                 tx_start = 1;
+    74                                                           
+    75              1                         10                 @(posedge clk);
+    76              1                         10                 tx_start = 0;
+    77                                                           
+    78              1                         10                 $display("[TB] Sending Data: 0x%h at %t", tx_data, $time);
+    79                                                           
+    80              1                         10                 wait(tx_done);
+    81              1                         10                 #100; // Small gap between frames
+    82                                                       end
+    83                                               
+    84              1                          1             $display("[TB] Coverage: %.2f%%", cov_inst.get_inst_coverage());
+    85              1                          1             $finish;
+    86                                                   end
+    87                                               
+    88                                               endmodule
+
+
+COVERGROUP COVERAGE:
+-----------------------------------------------------------------------------------------------
+Covergroup                                             Metric       Goal    Status               
+                                                                                              
+-----------------------------------------------------------------------------------------------
+ TYPE /uart_tx_tb/cg_uart                              50.00%        100    Uncovered            
+    covered/total bins:                                     2          4                      
+    missing/total bins:                                     2          4                      
+    % Hit:                                             50.00%        100                      
+    Coverpoint cg_uart::tx_data                        50.00%        100    Uncovered            
+        covered/total bins:                                 2          4                      
+        missing/total bins:                                 2          4                      
+        % Hit:                                         50.00%        100                      
+ Covergroup instance \/uart_tx_tb/cov_inst             50.00%        100    Uncovered            
+    covered/total bins:                                     2          4                      
+    missing/total bins:                                     2          4                      
+    % Hit:                                             50.00%        100                      
+    Coverpoint tx_data                                 50.00%        100    Uncovered            
+        covered/total bins:                                 2          4                      
+        missing/total bins:                                 2          4                      
+        % Hit:                                         50.00%        100                      
+        bin zeros                                           0          1    ZERO                 
+        bin ones                                            1          1    Covered              
+        bin alternating                                     0          1    ZERO                 
+        bin misc                                            9          1    Covered              
+
+TOTAL COVERGROUP COVERAGE: 50.00%  COVERGROUP TYPES: 1
+
+ASSERTION RESULTS:
+--------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass 
+                                                  Count        Count
+--------------------------------------------------------------------
+/uart_tx_tb/assert__p_tx_done_pulse
+                     uart_tx_tb.sv(53)                  0          1
+/uart_tx_tb/assert__p_tx_busy
+                     uart_tx_tb.sv(47)                  0          1
+
+Total Coverage By File (code coverage only, filtered view): 93.63%
+
