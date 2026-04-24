@@ -1,0 +1,1 @@
+# Assertion-Based-Verification-and-Coverage-Driven-Design-of-a-UART-Core
